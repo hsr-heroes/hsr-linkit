@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1.page-title= title
+    if links
+        each link in links
+            article##{link.id}.link
+                h2.link__title=#{link.title}
+    else if authorised
+        p.notice Keine Links vorhanden. Neu hinzufügen.
+    else
+        p.error Keine Links vorhanden.

@@ -1,0 +1,17 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/css/style.css')
+        script(type='javascript', href='/js/scripts.js')
+    body
+        section.header
+            form.post-link-form
+                label.post-link-form__label
+                input(type=text, name=url, placeholder='http://').post-link-form__input
+                input(type=submit).post-link-form__submit
+            section.account-info
+                p.account-info__welcome Howdy, #{title}
+                button.account-info__logout
+        section.content
+            block content
