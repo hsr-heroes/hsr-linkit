@@ -1,3 +1,4 @@
+//- Main Layout
 doctype html
 html
     head
@@ -8,11 +9,14 @@ html
         script(src='/js/moment.js')
         script(src='/js/scripts.js')
     body
+        //- Header
         section.header
+            //- Form to submit a new link
             form.post-link-form(method=POST, action='/links')
                 label.post-link-form__label(for="post-form-url") Submit Link
                 input(type="text", name="link[url]", id="post-form-url" placeholder='http://').post-link-form__input
                 input(type="submit" value="Submit").post-link-form__submit
+            //- Display the current user, etc.
             section.account-info
                 p.account-info__welcome Howdy, #{title}
                 button.account-info__logout
@@ -20,6 +24,7 @@ html
             block content
         section.footer
             p.footer__copyright &copy; #{moment().format('YYYY')} Linkit.
+        //- Handlebars Template for a single link
         script(type="text/x-handlebars-template" id="singleLinkTemplate").
             <article id="{{id}}" class="link">
                 <section class="link__votes">

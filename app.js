@@ -18,6 +18,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.locals.moment = moment;
 
+// "Database" for our links
 var db = [
   {
     id    : 1,
@@ -43,6 +44,7 @@ app.use(function (req, res, next) {
   next();
 });
 
+// Register routes and route handlers
 app.use('/', routes);
 app.use('/linkit', linkit);
 app.use('/links', links);
@@ -54,8 +56,7 @@ app.use(function (req, res, next) {
   next(err);
 });
 
-// error handlers
-
+// Error handlers
 app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {

@@ -1,3 +1,4 @@
+//- Linkit view
 extends layout
 
 block content
@@ -15,7 +16,5 @@ block content
                     footer.link__meta
                         span.link__author by #{link.author}
                         span.link__date on #{moment(link.date).format('LLL')}
-        else if authorised
-            p.notice Keine Links vorhanden. Neu hinzufügen.
         else
             p.error Keine Links vorhanden.
