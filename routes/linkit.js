@@ -3,7 +3,8 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Links' });
+  var db = req.db;
+  res.render('linkit', { title: 'Links', links: db });
 });
 
 module.exports = router;

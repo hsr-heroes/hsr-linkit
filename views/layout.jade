@@ -3,15 +3,35 @@ html
     head
         title= title
         link(rel='stylesheet', href='/css/style.css')
-        script(type='javascript', href='/js/scripts.js')
+        script(src='/js/jquery-2.1.3.min.js')
+        script(src='/js/handlebars-v3.0.1.js')
+        script(src='/js/moment.js')
+        script(src='/js/scripts.js')
     body
         section.header
-            form.post-link-form
-                label.post-link-form__label
-                input(type=text, name=url, placeholder='http://').post-link-form__input
-                input(type=submit).post-link-form__submit
+            form.post-link-form(method=POST, action='/links')
+                label.post-link-form__label(for="post-form-url") Submit Link
+                input(type="text", name="link[url]", id="post-form-url" placeholder='http://').post-link-form__input
+                input(type="submit" value="Submit").post-link-form__submit
             section.account-info
                 p.account-info__welcome Howdy, #{title}
                 button.account-info__logout
         section.content
             block content
+        section.footer
+            p.footer__copyright &copy; #{moment().format('YYYY')} Linkit.
+        script(type="text/x-handlebars-template" id="singleLinkTemplate").
+            <article id="{{id}}" class="link">
+                <section class="link__votes">
+                    <a class="link__vote link__vote--up">Upvote</a>
+                    <span class="link__vote link__vote--count">{{votes}}</span>
+                    <a class="link__vote link__vote--up">Downvote</a>
+                </section>
+                <h2 class="link__title">
+                    <a href="{{url}}" target="_blank" class="link__link">{{title}}</a>
+                </h2>
+                <footer class="link__meta">
+                    <span class="link__author">by {{author}}</span>
+                    <span class="link__date">on {{date}}</span>
+                </footer>
+            </article>

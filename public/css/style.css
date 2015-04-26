@@ -1,8 +1,80 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	padding: 50px;
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+*, *:after, *:before {
+	box-sizing: border-box;
 }
 
 a {
-  color: #00B7FF;
+	color: #00B7FF;
+}
+
+/**
+ * Header
+ */
+
+.post-link-form,
+.account-info {
+	width: 50%;
+	float: left;
+}
+
+/**
+ * Post Link Form
+ */
+
+/**
+ * Footer
+ */
+
+.footer {
+	margin-top: 4em;
+}
+
+/**
+ * Content
+ */
+
+.content {
+	clear: both;
+}
+
+/**
+ * Link Styling
+ */
+
+.link {
+	margin: 0 0 2em;
+	overflow: hidden;
+	clear: both;
+}
+
+.link__votes {
+	float: left;
+	text-align: center;
+	margin-right: 1em;
+}
+
+.link__vote {
+	display: block;
+}
+
+.link__vote--count {
+	font-size: 2em;
+}
+
+.link__title {
+	margin:0 0 10px;
+}
+
+.link__author,
+.link__date {
+	display: block;
+	float: left;
+}
+
+.link__author {
+	margin-right: 1em;
 }

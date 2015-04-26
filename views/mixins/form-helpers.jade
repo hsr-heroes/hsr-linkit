@@ -1,0 +1,4 @@
+mixin field(type, name, label, placeholder)
+    .field(class='field-' + type)
+        label #{label}:
+        input(type=type, name='user[#{name}]', value=user[name], placeholder=placeholder)

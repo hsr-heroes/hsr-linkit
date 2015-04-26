@@ -16,6 +16,7 @@ app.set('view engine', 'jade');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.locals.moment = moment;
 
 var db = [
   {
@@ -62,6 +63,5 @@ app.use(function (err, req, res, next) {
     error  : err
   });
 });
-
 
 module.exports = app;

@@ -2,11 +2,20 @@ extends layout
 
 block content
     h1.page-title= title
-    if links
-        each link in links
-            article##{link.id}.link
-                h2.link__title=#{link.title}
-    else if authorised
-        p.notice Keine Links vorhanden. Neu hinzufügen.
-    else
-        p.error Keine Links vorhanden.
+    div.content__links
+        if links
+            each link in links
+                article(id='#{link.id}').link
+                    section.link__votes
+                        a.link__vote.link__vote--up Upvote
+                        span.link__vote.link__vote--count #{link.votes}
+                        a.link__vote.link__vote--up Downvote
+                    h2.link__title
+                        a.link__link(href='#{link.url}' target='_blank') #{link.title}
+                    footer.link__meta
+                        span.link__author by #{link.author}
+                        span.link__date on #{moment(link.date).format('LLL')}
+        else if authorised
+            p.notice Keine Links vorhanden. Neu hinzufügen.
+        else
+            p.error Keine Links vorhanden.
