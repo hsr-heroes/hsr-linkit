@@ -18,19 +18,20 @@ router.get('/:id', function (req, res) {
   if (link !== undefined) {
     res.json(link);
   } else {
-    res.status(404).end();
+    return next(new Error('Whoops!'));
   }
 });
 
-router.post('/', function (req, res) {
+router.post('/', function (req, res, next) {
   var db = req.db;
 
   if (
       req.body.title === undefined ||
       req.body.url === undefined ||
+      req.body.url.match(/https?:\/\/.+/i) === null ||
       req.body.author === undefined
   ) {
-    res.status(500).end();
+    return next(new Error('Whoops!'));
   }
 
   var link = {
@@ -46,7 +47,7 @@ router.post('/', function (req, res) {
   res.json(link);
 });
 
-router.put('/:id', function (req, res) {
+router.put('/:id', function (req, res, next) {
   var db = req.db;
 
   var pos = _.findIndex(db, function (item) {
@@ -54,9 +55,9 @@ router.put('/:id', function (req, res) {
   });
 
   if (req.body && pos) {
-    res.json(_.extend(db[pos], _.pick(req.body, 'title', 'url', 'author')))
+    res.json(_.extend(db[pos], _.pick(req.body, 'title', 'url', 'author')));
   } else {
-    res.status(500).end();
+    return next(new Error('Whoops!'));
   }
 });
 
@@ -71,7 +72,7 @@ router.post('/:id/up', function (req, res) {
     item.votes++;
     res.json(item);
   } else {
-    res.status(500).end();
+    return next(new Error('Whoops!'));
   }
 });
 
@@ -86,7 +87,7 @@ router.post('/:id/down', function (req, res) {
     item.votes--;
     res.json(item);
   } else {
-    res.status(500).end();
+    return next(new Error('Whoops!'));
   }
 });
 

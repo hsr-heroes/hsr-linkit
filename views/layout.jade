@@ -14,7 +14,7 @@ html
             //- Form to submit a new link
             form.post-link-form(method=POST, action='/links')
                 label.post-link-form__label(for="post-form-url") Submit Link
-                input(type="text", name="link[url]", id="post-form-url" placeholder='http://').post-link-form__input
+                input(type="url", name="link[url]", id="post-form-url" placeholder="http://" pattern="https?://.+" required).post-link-form__input
                 input(type="submit" value="Submit").post-link-form__submit
             //- Display the current user, etc.
             section.account-info
