@@ -1,11 +1,13 @@
 var express = require('express'),
     path = require('path'),
+    session = require('express-session'),
     bodyParser = require('body-parser'),
     moment = require('moment');
 
 var routes = require('./routes/index');
 var linkit = require('./routes/linkit');
 var links = require('./routes/links');
+var login = require('./routes/login');
 
 var app = express();
 
@@ -15,6 +17,12 @@ app.set('view engine', 'jade');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(session({
+  secret           : 'linkitSecret',
+  saveUninitialized: false,
+  resave           : false,
+  cookie           : {maxAge: 60000}
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.locals.moment = moment;
 
@@ -36,11 +44,12 @@ var db = [
     date  : moment("2015-04-17T14:10:00.000Z").format(),
     votes : 8
   },
-]
+];
 
 // Make our "database" accessible to our router
 app.use(function (req, res, next) {
-  req.db = db;
+  res.locals.db = db;
+  res.locals.session = req.session;
   next();
 });
 
@@ -48,6 +57,7 @@ app.use(function (req, res, next) {
 app.use('/', routes);
 app.use('/linkit', linkit);
 app.use('/links', links);
+app.use('/login', login);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -64,11 +74,11 @@ app.use(function (err, req, res, next) {
     error  : err
   });
   /*
-  res.render('error', {
-    message: err.message,
-    error  : err
-  });
-  */
+   res.render('error', {
+   message: err.message,
+   error  : err
+   });
+   */
 });
 
 module.exports = app;

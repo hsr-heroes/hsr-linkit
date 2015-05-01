@@ -3,13 +3,23 @@ var express = require('express'),
     moment = require('moment'),
     _ = require('underscore');
 
+// Session check
+function ensureUserIsLoggedIn(req, res, next) {
+// passport.js provides this method req.isAuthenticated())
+  if (res.locals.session.name)
+    return next();
+  else {
+    return next(new Error('Not logged in!'));
+  }
+}
+
 router.get('/', function (req, res) {
-  var db = req.db;
+  var db = res.locals.db;
   res.json(db);
 });
 
-router.get('/:id', function (req, res) {
-  var db = req.db;
+router.get('/:id', function (req, res, next) {
+  var db = res.locals.db;
 
   var link = _.find(db, function (item) {
     return item.id == req.params.id;
@@ -22,8 +32,8 @@ router.get('/:id', function (req, res) {
   }
 });
 
-router.post('/', function (req, res, next) {
-  var db = req.db;
+router.post('/', ensureUserIsLoggedIn, function (req, res, next) {
+  var db = res.locals.db;
 
   if (
       req.body.title === undefined ||
@@ -47,8 +57,8 @@ router.post('/', function (req, res, next) {
   res.json(link);
 });
 
-router.put('/:id', function (req, res, next) {
-  var db = req.db;
+router.put('/:id', ensureUserIsLoggedIn, function (req, res, next) {
+  var db = res.locals.db;
 
   var pos = _.findIndex(db, function (item) {
     return item.id == req.params.id;
@@ -61,8 +71,8 @@ router.put('/:id', function (req, res, next) {
   }
 });
 
-router.post('/:id/up', function (req, res) {
-  var db = req.db;
+router.post('/:id/up', ensureUserIsLoggedIn, function (req, res, next) {
+  var db = res.locals.db;
 
   var item = _.find(db, function (item) {
     return item.id == req.params.id;
@@ -76,8 +86,8 @@ router.post('/:id/up', function (req, res) {
   }
 });
 
-router.post('/:id/down', function (req, res) {
-  var db = req.db;
+router.post('/:id/down', ensureUserIsLoggedIn, function (req, res, next) {
+  var db = res.locals.db;
 
   var item = _.find(db, function (item) {
     return item.id == req.params.id;

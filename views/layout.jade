@@ -12,14 +12,23 @@ html
         //- Header
         section.header
             //- Form to submit a new link
-            form.post-link-form(method=POST, action='/links')
-                label.post-link-form__label(for="post-form-url") Submit Link
-                input(type="url", name="link[url]", id="post-form-url" placeholder="http://" pattern="https?://.+" required).post-link-form__input
-                input(type="submit" value="Submit").post-link-form__submit
+            if session.name
+                form.post-link-form(method='POST', action='/links')
+                    label.post-link-form__label(for="post-form-url") Submit Link
+                    input(type="url", name="link[url]", id="post-form-url" placeholder="http://" pattern="https?://.+" required).post-link-form__input
+                    input(type="submit" value="Submit").post-link-form__submit
+            else
+                div.post-link-form
+                    br
             //- Display the current user, etc.
             section.account-info
-                p.account-info__welcome Howdy, #{title}
-                button.account-info__logout
+                if session.name
+                    p.account-info__welcome Howdy, #{session.name}
+                    input(type="submit" value="Log out" id="logout-button")
+                else
+                    form.login-form(method='POST', action='/login')
+                        input(type="text", name="name", id="login-form-name" placeholder="Your username" required).login-form__input
+                        input(type="submit" value="Log in").login-form__submit
         section.content
             block content
         section.footer

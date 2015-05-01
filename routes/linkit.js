@@ -3,8 +3,8 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var db = req.db;
-  res.render('linkit', { title: 'Links', links: db });
+  var db = res.locals.db;
+  res.render('linkit', { title: 'Links', links: db, session: req.session });
 });
 
 module.exports = router;

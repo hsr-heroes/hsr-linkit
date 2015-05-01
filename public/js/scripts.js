@@ -39,10 +39,21 @@
   $(function () {
     // Form submission handler
     $('.post-link-form').submit(function (e) {
+      e.preventDefault();
+
       var url = $('#post-form-url').val();
       postLink(url, 'New: ' + url, 'random');
+    });
 
-      e.preventDefault();
+    $('#logout-button').click(function (e) {
+      e.preventDefault;
+
+      $.ajax({
+        url   : 'http://localhost:3000/login',
+        method: 'DELETE'
+      }).done(function () {
+        document.location.reload(true);
+      });
     });
 
     // Interval for Ajax polling
