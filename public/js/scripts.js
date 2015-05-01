@@ -45,6 +45,7 @@
       postLink(url, 'New: ' + url, 'random');
     });
 
+    // Log out button
     $('#logout-button').click(function (e) {
       e.preventDefault;
 
@@ -53,6 +54,21 @@
         method: 'DELETE'
       }).done(function () {
         document.location.reload(true);
+      });
+    });
+
+    // Upvote / Downvote
+    $('body').on('click', '.link__vote', function (e) {
+      e.preventDefault();
+
+      var type = $(this).attr('data-vote'),
+          linkId = $(this).parents('.link').attr('id');
+
+      $.ajax({
+        url   : 'http://localhost:3000/links/' + linkId + '/' + type,
+        method: 'POST'
+      }).done(function() {
+        getLinks();
       });
     });
 

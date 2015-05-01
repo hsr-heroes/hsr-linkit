@@ -8,9 +8,9 @@ block content
             each link in links
                 article(id='#{link.id}').link
                     section.link__votes
-                        a.link__vote.link__vote--up Upvote
+                        a(href="#upvote" data-vote="up").link__vote.link__vote--up Upvote
                         span.link__vote.link__vote--count #{link.votes}
-                        a.link__vote.link__vote--up Downvote
+                        a(href="#downvote" data-vote="down").link__vote.link__vote--up Downvote
                     h2.link__title
                         a.link__link(href='#{link.url}' target='_blank') #{link.title}
                     footer.link__meta
