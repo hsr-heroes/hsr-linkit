@@ -1,10 +1,15 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express'),
+    router = express.Router(),
+    userController = require('../controllers/user'),
+    linkController = require('../controllers/link');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  var db = res.locals.db;
-  res.render('linkit', { title: 'Links', links: db, session: req.session });
+router.get('/', function (req, res, next) {
+  res.render('linkit', {
+    title: 'Links',
+    user : userController.getOne(req.session.username),
+    links: linkController.getAll()
+  });
 });
 
 module.exports = router;

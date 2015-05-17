@@ -1,104 +1,82 @@
 var express = require('express'),
     router = express.Router(),
     moment = require('moment'),
-    _ = require('underscore');
+    _ = require('underscore'),
+    linkController = require('../controllers/link');
 
 // Session check
 function ensureUserIsLoggedIn(req, res, next) {
-// passport.js provides this method req.isAuthenticated())
-  if (res.locals.session.name)
+  if (req.session.username)
     return next();
   else {
-    return next(new Error('Not logged in!'));
+    res.json({error: 'Not logged in!'});
   }
 }
 
 router.get('/', function (req, res) {
-  var db = res.locals.db;
-  res.json(db);
+  res.json(linkController.getAll());
 });
 
 router.get('/:id', function (req, res, next) {
-  var db = res.locals.db;
-
-  var link = _.find(db, function (item) {
-    return item.id == req.params.id;
-  });
-
-  if (link !== undefined) {
-    res.json(link);
-  } else {
-    return next(new Error('Whoops!'));
-  }
+  res.json(linkController.getOne(req.params.id));
 });
 
 router.post('/', ensureUserIsLoggedIn, function (req, res, next) {
-  var db = res.locals.db;
-
   if (
       req.body.title === undefined ||
       req.body.url === undefined ||
-      req.body.url.match(/https?:\/\/.+/i) === null ||
-      req.body.author === undefined
+      req.body.url.match(/https?:\/\/.+/i) === null
   ) {
-    return next(new Error('Whoops!'));
+    res.json({error: 'Whoops!'});
   }
 
-  var link = {
-    id    : db.length + 1,
-    title : req.body.title,
-    url   : req.body.url,
-    author: req.body.author,
-    date  : moment().format(),
-    votes : 0
+  res.json(linkController.addLink(req.body.title, req.body.url, req.session.username));
+});
+
+router.delete('/:id', ensureUserIsLoggedIn, function (req, res, next) {
+  var link = linkController.getOne(req.params.id);
+
+  if (link !== undefined && linkController.isAuthor(link.id, req.session.username)) {
+    linkController.removeLink(req.params.id);
+  } else {
+    res.json({error: 'Whoops!'});
   }
 
-  db.push(link);
   res.json(link);
 });
 
 router.put('/:id', ensureUserIsLoggedIn, function (req, res, next) {
-  var db = res.locals.db;
+  if (!linkController.isAuthor(req.params.id, req.session.username)) {
+    res.json({error: 'Whoops!'});
+  }
 
-  var pos = _.findIndex(db, function (item) {
-    return item.id == req.params.id;
-  });
+  var link = linkController.updateLink(req.params.id, req.body);
 
-  if (req.body && pos) {
-    res.json(_.extend(db[pos], _.pick(req.body, 'title', 'url', 'author')));
+  if (link === false) {
+    res.json({error: 'Whoops!'});
   } else {
-    return next(new Error('Whoops!'));
+    res.json(link);
   }
 });
 
 router.post('/:id/up', ensureUserIsLoggedIn, function (req, res, next) {
-  var db = res.locals.db;
+  var link = linkController.upvoteLink(req.params.id);
 
-  var item = _.find(db, function (item) {
-    return item.id == req.params.id;
-  });
-
-  if (item) {
-    item.votes++;
-    res.json(item);
-  } else {
-    return next(new Error('Whoops!'));
+  if (link === false) {
+    res.json({error: 'Whoops!'});
   }
+
+  res.json(link);
 });
 
 router.post('/:id/down', ensureUserIsLoggedIn, function (req, res, next) {
-  var db = res.locals.db;
+  var link = linkController.downvoteLink(req.params.id);
 
-  var item = _.find(db, function (item) {
-    return item.id == req.params.id;
-  });
-
-  if (item) {
-    item.votes--;
-    res.json(item);
-  } else {
-    return next(new Error('Whoops!'));
+  if (link === false) {
+    res.json({error: 'Whoops!'});
   }
+
+  res.json(link);
 });
 
 module.exports = router;

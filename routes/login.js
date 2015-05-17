@@ -3,7 +3,7 @@ var express = require('express'),
 
 router.get('/', function (req, res) {
   if (req.session) {
-    res.json({name: req.session.name});
+    res.json({username: req.session.username});
   } else {
     return null;
   }
@@ -14,7 +14,7 @@ router.post('/', function (req, res, next) {
     return next(new Error('Whoops!'));
   }
 
-  req.session.name = req.body.name;
+  req.session.username = req.body.name;
 
   res.redirect('/linkit');
 });

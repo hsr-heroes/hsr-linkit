@@ -12,7 +12,7 @@ html
         //- Header
         section.header
             //- Form to submit a new link
-            if session.name
+            if user
                 form.post-link-form(method='POST', action='/links')
                     label.post-link-form__label(for="post-form-url") Submit Link
                     input(type="url", name="link[url]", id="post-form-url" placeholder="http://" pattern="https?://.+" required).post-link-form__input
@@ -22,8 +22,8 @@ html
                     br
             //- Display the current user, etc.
             section.account-info
-                if session.name
-                    p.account-info__welcome Howdy, #{session.name}
+                if user
+                    p.account-info__welcome Howdy, #{user.fullname}
                     input(type="submit" value="Log out" id="logout-button")
                 else
                     form.login-form(method='POST', action='/login')
@@ -36,16 +36,16 @@ html
         //- Handlebars Template for a single link
         script(type="text/x-handlebars-template" id="singleLinkTemplate").
             <article id="{{id}}" class="link">
-                <section class="link__votes">
-                    <a href="#upvote" class="link__vote link__vote--up" data-vote="up">Upvote</a>
-                    <span class="link__vote link__vote--count">{{votes}}</span>
-                    <a href="downvote" class="link__vote link__vote--up" data-vote="down">Downvote</a>
-                </section>
-                <h2 class="link__title">
-                    <a href="{{url}}" target="_blank" class="link__link">{{title}}</a>
-                </h2>
-                <footer class="link__meta">
-                    <span class="link__author">by {{author}}</span>
-                    <span class="link__date">on {{date}}</span>
-                </footer>
+            <section class="link__votes">
+            <a href="#upvote" class="link__vote link__vote--up" data-vote="up">Upvote</a>
+            <span class="link__vote link__vote--count">{{votes}}</span>
+            <a href="downvote" class="link__vote link__vote--up" data-vote="down">Downvote</a>
+            </section>
+            <h2 class="link__title">
+            <a href="{{url}}" target="_blank" class="link__link">{{title}}</a>
+            </h2>
+            <footer class="link__meta">
+            <span class="link__author">by {{author}}</span>
+            <span class="link__date">on {{date}}</span>
+            </footer>
             </article>
