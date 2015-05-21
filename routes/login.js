@@ -4,7 +4,7 @@ var express = require('express'),
 
 router.get('/', function (req, res) {
   if (req.session) {
-    res.json({username: req.session.username, fullname: req.session.fullname});
+    res.json({username: req.session.username});
   } else {
     return null;
   }
