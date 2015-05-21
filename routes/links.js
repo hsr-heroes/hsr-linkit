@@ -10,6 +10,7 @@ function ensureUserIsLoggedIn(req, res, next) {
     return next();
   else {
     res.json({error: 'Not logged in!'});
+    return;
   }
 }
 
@@ -28,6 +29,7 @@ router.post('/', ensureUserIsLoggedIn, function (req, res, next) {
       req.body.url.match(/https?:\/\/.+/i) === null
   ) {
     res.json({error: 'Whoops!'});
+    return;
   }
 
   res.json(linkController.addLink(req.body.title, req.body.url, req.session.username));
@@ -40,6 +42,7 @@ router.delete('/:id', ensureUserIsLoggedIn, function (req, res, next) {
     linkController.removeLink(req.params.id);
   } else {
     res.json({error: 'Whoops!'});
+    return;
   }
 
   res.json(link);
@@ -48,6 +51,7 @@ router.delete('/:id', ensureUserIsLoggedIn, function (req, res, next) {
 router.put('/:id', ensureUserIsLoggedIn, function (req, res, next) {
   if (!linkController.isAuthor(req.params.id, req.session.username)) {
     res.json({error: 'Whoops!'});
+    return;
   }
 
   var link = linkController.updateLink(req.params.id, req.body);
@@ -64,6 +68,7 @@ router.post('/:id/up', ensureUserIsLoggedIn, function (req, res, next) {
 
   if (link === false) {
     res.json({error: 'Whoops!'});
+    return;
   }
 
   res.json(link);
@@ -74,6 +79,7 @@ router.post('/:id/down', ensureUserIsLoggedIn, function (req, res, next) {
 
   if (link === false) {
     res.json({error: 'Whoops!'});
+    return;
   }
 
   res.json(link);
