@@ -20,7 +20,7 @@
   // Get all links and render them
   function getLinks() {
     var $contentBlock = $('.content__links');
-    if (!$contentBlock.find('.link')) {
+    if ($contentBlock.length === 0) {
       return;
     }
 
