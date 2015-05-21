@@ -13,8 +13,7 @@
       title : title,
       author: author
     };
-    $.post('http://localhost:3000/links/', data, function (data) {
-      alert('Link submitted! ID: ' + data.id);
+    $.post('/links/', data, function (data) {
     });
   }
 
@@ -67,7 +66,7 @@
       $.ajax({
         url   : 'http://localhost:3000/links/' + linkId + '/' + type,
         method: 'POST'
-      }).done(function() {
+      }).done(function () {
         getLinks();
       });
     });
