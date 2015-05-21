@@ -5,7 +5,6 @@ var linkController = require('../controllers/link');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  linkController.init();
   res.redirect('/linkit');
 });
 
