@@ -49,7 +49,8 @@ router.delete('/:id', ensureUserIsLoggedIn, function (req, res, next) {
 });
 
 router.put('/:id', ensureUserIsLoggedIn, function (req, res, next) {
-  if (!linkController.isAuthor(req.params.id, req.session.username)) {
+  if (!linkController.getOne(req.params.id) || !linkController.isAuthor(req.params.id, req.session.username) ||
+      req.body !== undefined && req.body.url.match(/https?:\/\/.+/i) === null) {
     res.json({error: 'Whoops!'});
     return;
   }
