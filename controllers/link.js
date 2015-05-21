@@ -64,7 +64,7 @@ var LinkController = {
    * @param id
    */
   removeLink: function (id) {
-    this.links = _.without(this.links, _.findWhere(this.links, {id: id}));
+    this.links = _.without(this.links, this.getOne(id));
   },
 
   upvoteLink: function (id) {
