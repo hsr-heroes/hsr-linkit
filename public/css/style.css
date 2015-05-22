@@ -1,6 +1,13 @@
+html {
+	background: #efefef;
+}
+
 body {
+	max-width:80%;
+	margin: 50px auto;
 	padding: 50px;
-	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	background:#fff;
+	font: 16px/1.5 "Open Sans", Helvetica, Arial, sans-serif;
 }
 
 *, *:after, *:before {
@@ -21,9 +28,36 @@ a {
 	float: left;
 }
 
+.account-info {
+	text-align: right;
+}
+
+
+
 /**
  * Post Link Form
  */
+
+.post-link-form__label {
+	margin-right: 20px;
+}
+
+input {
+	height: 24px;
+	line-height: 24px;
+	margin: 0;
+	padding: 0 4px;
+	border: 1px solid #bbb;
+	box-sizing: border-box;
+}
+
+input[type=submit] {
+	border-color: #aaa;
+	background: #aaa;
+	margin-left: 10px;
+	color: #fff;
+	cursor: pointer;
+}
 
 /**
  * Footer
@@ -46,9 +80,13 @@ a {
  */
 
 .link {
-	margin: 0 0 2em;
+	padding: 1em;
 	overflow: hidden;
 	clear: both;
+}
+
+.link:nth-child(odd) {
+	background-color: #efefef;
 }
 
 .link__votes {
