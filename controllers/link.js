@@ -1,5 +1,4 @@
 var Link = require('../models/link'),
-    userController = require('../controllers/user'),
     _ = require('underscore');
 
 var LinkController = {
